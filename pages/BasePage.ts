@@ -5,20 +5,20 @@ export class BasePage {
   readonly menuButton: Locator;
   readonly searchBox: Locator;
   readonly searchButton: Locator;
-  readonly signInLink: Locator;
-  readonly homeLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.menuButton = page.getByRole('button', { name: 'menu' });
+
+    this.menuButton = page.locator('button[aria-label*="menu" i]').or(page.getByRole('button', { name: 'menu' })).or(page.locator('button').first());
     this.searchBox = page.getByRole('textbox', { name: 'Search for solutions and tickets' });
     this.searchButton = page.getByRole('banner').getByRole('button').nth(1);
-    this.signInLink = page.getByRole('link', { name: 'Sign in' });
-    this.homeLink = page.getByRole('link', { name: 'Self Service Portal' });
   }
 
   async openBurgerMenu() {
-    await this.menuButton.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.menuButton.waitFor({ state: 'visible', timeout: 10000 });
+    
+    await this.menuButton.click({ force: true });
   }
 
   async performSearch(searchTerm: string) {
@@ -34,8 +34,5 @@ export class BasePage {
   async verifySearchValue(expectedValue: string) {
     await expect(this.searchBox).toHaveValue(expectedValue);
   }
-
-  async navigateHome() {
-    await this.homeLink.click();
-  }
+  
 }
