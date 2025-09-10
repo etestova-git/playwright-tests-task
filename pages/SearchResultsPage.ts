@@ -4,12 +4,13 @@ import { BasePage } from './BasePage';
 export class SearchResultsPage extends BasePage {
   readonly searchResultsHeading: Locator;
   readonly noResultsMessage: Locator;
-  readonly searchInput: Locator;
+  readonly articlesList: Locator;
 
   constructor(page: Page) {
     super(page);
     this.searchResultsHeading = page.getByRole('heading', { name: 'Search Results', level: 4 });
     this.noResultsMessage = page.getByText('There are no items to display.');
+    this.articlesList = page.locator('.MuiListItemText-primary');
   }
 
   async verifyPageLoaded() {
@@ -24,7 +25,7 @@ export class SearchResultsPage extends BasePage {
   }
 
   async verifyArticleCount(expectedCount: number) {
-    await expect(this.page.getByRole('listitem')).toHaveCount(expectedCount);
+    await expect(this.articlesList).toHaveCount(expectedCount);
   }
 
 }

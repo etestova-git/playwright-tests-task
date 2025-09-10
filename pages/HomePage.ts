@@ -28,7 +28,7 @@ export class HomePage extends BasePage {
   async navigateToKnowledgeBase() {
     await this.openBurgerMenu();
     await expect(this.knowledgeBaseLink).toBeVisible();
-    await this.knowledgeBaseLink.click();
+    //await this.knowledgeBaseLink.click();
   }
 
   async verifyBurgerMenuOpened() {

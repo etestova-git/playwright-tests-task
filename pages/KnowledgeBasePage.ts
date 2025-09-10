@@ -10,8 +10,6 @@ export class KnowledgeBasePage extends BasePage {
   readonly allArticlesLink: Locator;
   readonly categoriesTree: Locator;
   readonly articlesList: Locator;
-  readonly pageInfo: Locator;
-  readonly visibleCountInfo: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -24,8 +22,6 @@ export class KnowledgeBasePage extends BasePage {
     this.categoriesTree = page.getByRole('tree');
     //this.articlesList = page.getByRole('list').filter({ has: page.getByText(/KB\d{6}/) });
     this.articlesList = page.locator('.MuiListItemText-primary');
-    this.pageInfo = page.getByText('Page:');
-    this.visibleCountInfo = page.getByText('Visible:');
   }
 
   async verifyPageLoaded() {

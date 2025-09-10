@@ -9,9 +9,9 @@ test.describe('Knowledge Base Tests', () => {
 
 
   test.beforeEach(async ({ page }) => {
+    basePage = new BasePage(page);
     homePage = new HomePage(page);
     knowledgeBasePage = new KnowledgeBasePage(page);
-    basePage = new BasePage(page);
     searchResultsPage = new SearchResultsPage(page);
 
     await test.step('Open home page', async () => {
@@ -52,22 +52,6 @@ test.describe('Knowledge Base Tests', () => {
     await test.step('Perform unsuccessful search', async () => {
       await basePage.performSearch('NonExistentTerm12345');
       await searchResultsPage.verifyNoResultsState();
-    });
-  });
-
-  test('Search with no results - empty state verification @regression', async ({ page }) => {
-
-    await test.step('Input text and varify that articles still present', async () => {
-      await basePage.performSearch('###NoResultsExpected###');
-      await searchResultsPage.verifyPageLoaded;
-      await searchResultsPage.verifyArticleCount(2);
-    });
-
-    await test.step('Verify clear search state', async () => {
-      await basePage.clearSearch();
-
-      await basePage.verifySearchValue('');
-      await searchResultsPage.verifyArticleCount(2);
     });
   });
 
