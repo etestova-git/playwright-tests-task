@@ -35,7 +35,7 @@ test.describe('Knowledge Base Tests', () => {
 
     await test.step('Verify Knowledge Base page structure', async () => {
       await knowledgeBasePage.verifyPageStructure();
-      await knowledgeBasePage.verifyArticleCount(2); // сделать не меньше 1 не больше 10
+      await knowledgeBasePage.verifyArticleCount(); // not less than 1, not more than 10
     });
   });
 
