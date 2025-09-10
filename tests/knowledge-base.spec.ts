@@ -31,7 +31,7 @@ test.describe('Knowledge Base Tests', () => {
 
   });
 
-  test('Navigation to Knowledge Base via burger menu @smoke', async ({ page }) => {
+  test('Navigation to Knowledge Base via burger menu @regression', async ({ page }) => {
 
     await test.step('Verify Knowledge Base page structure', async () => {
       await knowledgeBasePage.verifyPageStructure();
@@ -48,7 +48,7 @@ test.describe('Knowledge Base Tests', () => {
     await searchResultsPage.verifyArticleCount(1);
   });
 
-  test('Unsuccessful search in Knowledge Base @regression', async ({ page }) => {
+  test('Unsuccessful search in Knowledge Base @smoke', async ({ page }) => {
 
     await test.step('Perform unsuccessful search', async () => {
       await basePage.performSearch('NonExistentTerm12345');
