@@ -20,7 +20,6 @@ export class KnowledgeBasePage extends BasePage {
     this.knowledgeBaseLink = this.breadcrumbNavigation.getByRole('link', { name: 'Knowledge Base' });
     this.allArticlesLink = this.breadcrumbNavigation.getByRole('link', { name: 'All Articles' });
     this.categoriesTree = page.getByRole('tree');
-    //this.articlesList = page.getByRole('list').filter({ has: page.getByText(/KB\d{6}/) });
     this.articlesList = page.locator('.MuiListItemText-primary');
   }
 
@@ -47,6 +46,16 @@ export class KnowledgeBasePage extends BasePage {
     const articleCount = await this.articlesList.count();
     expect(articleCount).toBeGreaterThanOrEqual(1);
     expect(articleCount).toBeLessThanOrEqual(10);
+  }
+
+  async findArticleTitle(): Promise<string> {
+    // Wait for articles to load
+    await expect(this.articlesList.first()).toBeVisible();
+    
+    // Get the text content of the first article
+    const firstArticle = this.articlesList.first();
+    const articleText = await firstArticle.textContent();
+    return articleText ?? '';
   }
 
   async navigateToHomePage() {

@@ -41,7 +41,8 @@ test.describe('Knowledge Base Tests', () => {
 
   test('Successful search in Knowledge Base @smoke', async ({ page }) => {
 
-    await basePage.performSearch('Word'); // сначала найти название статьи, а потом поискать ее
+    const articleTitle = await knowledgeBasePage.findArticleTitle();
+    await basePage.performSearch(articleTitle);
 
     await searchResultsPage.verifyPageLoaded();
     await searchResultsPage.verifyArticleCount(1);

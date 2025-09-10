@@ -14,10 +14,7 @@ export class BasePage {
     this.searchButton = page.getByRole('banner').getByRole('button').nth(1);
   }
 
-  async openBurgerMenu() {
-    /*await this.page.waitForLoadState('domcontentloaded');
-    await this.menuButton.waitFor({ state: 'visible', timeout: 10000 });*/
-    
+  async openBurgerMenu() {    
     await this.menuButton.click({ force: true });
   }
 

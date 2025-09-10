@@ -3,15 +3,11 @@ import { BasePage } from './BasePage';
 
 export class HomePage extends BasePage {
   readonly findSolutionHeading: Locator;
-  readonly latestUpdatesSection: Locator;
-  readonly popularArticlesSection: Locator;
   readonly knowledgeBaseLink: Locator;
 
   constructor(page: Page) {
     super(page);
     this.findSolutionHeading = page.getByRole('heading', { name: 'Find a Solution' });
-    this.latestUpdatesSection = page.getByRole('button', { name: 'Latest Updates' });
-    this.popularArticlesSection = page.getByRole('button', { name: 'Popular Articles' });
     this.knowledgeBaseLink = page.getByRole('link', { name: 'Knowledge Base' });
   }
 
@@ -28,7 +24,6 @@ export class HomePage extends BasePage {
   async navigateToKnowledgeBase() {
     await this.openBurgerMenu();
     await expect(this.knowledgeBaseLink).toBeVisible();
-    //await this.knowledgeBaseLink.click();
   }
 
   async verifyBurgerMenuOpened() {
