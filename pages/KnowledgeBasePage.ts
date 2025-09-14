@@ -10,6 +10,10 @@ export class KnowledgeBasePage extends BasePage {
   readonly allArticlesLink: Locator;
   readonly categoriesTree: Locator;
   readonly articlesList: Locator;
+  readonly sortingDropdown: Locator;
+  readonly sortingOptions = ['Alphabetical', 'Highest Rated', 'Most Popular', 'Newest First'] as const;
+  readonly firstArticleViews: Locator;
+  readonly secondArticleViews: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -21,6 +25,14 @@ export class KnowledgeBasePage extends BasePage {
     this.allArticlesLink = this.breadcrumbNavigation.getByRole('link', { name: 'All Articles' });
     this.categoriesTree = page.getByRole('tree');
     this.articlesList = page.locator('.MuiListItemText-primary');
+    this.sortingDropdown = page.getByRole('combobox').nth(0);
+    this.firstArticleViews = page.locator('.MuiTypography-inherit').nth(0);
+    this.secondArticleViews = page.locator('.MuiTypography-inherit').nth(2);
+  }
+
+  async goto() {
+    await this.page.goto('https://showcase-x.alloyservice.com/hd/knowledgeBase');
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   async verifyPageLoaded() {
@@ -60,5 +72,25 @@ export class KnowledgeBasePage extends BasePage {
 
   async navigateToHomePage() {
     await this.homeLink.click();
+  }
+
+  async changeArticleSorting(order: typeof this.sortingOptions[number]) {
+    await this.sortingDropdown.click();
+    await this.page.getByRole('option', { name: order }).click();
+  }
+
+  async verifyArticleSorting(order: typeof this.sortingOptions[number]) {
+    if (order === 'Most Popular') {
+      expect(this.firstArticleViews).toBeVisible();
+      const firstArticleViews = await this.firstArticleViews.textContent();
+      const firstNumber = firstArticleViews?.match(/\d+/)?.[0];
+      expect(this.secondArticleViews).toBeVisible();
+      const secondArticleViews = await this.secondArticleViews.textContent();
+      const secondNumber = secondArticleViews?.match(/\d+/)?.[0];
+      expect(parseInt(firstNumber || '0')).toBeGreaterThanOrEqual(parseInt(secondNumber || '0'));
+    } else {
+      // Implement other sorting verifications as needed
+      throw new Error(`Sorting verification for ${order} is not implemented.`);
+    }
   }
 }
