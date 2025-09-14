@@ -6,14 +6,14 @@ test.describe('Knowledge Base Structure', async () => {
 
     test.beforeEach(async ({ page }) => {
         mp = new ManagePage(page);
-    });
-
-    test('Sort articles by Most Popular', async ({page}) => {
+        
         await test.step('Open knowledge base page', async () => {
             await mp.knowledgeBasePage.goto();
             await mp.knowledgeBasePage.verifyPageLoaded();
         });
+    });
 
+    test('Sort articles by Most Popular', async ({page}) => {
         await test.step('Change article sorting', async () => {
             const orderMethod = 'Most Popular';
             await mp.knowledgeBasePage.changeArticleSorting(orderMethod);
