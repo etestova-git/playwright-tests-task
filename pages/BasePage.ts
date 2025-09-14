@@ -14,7 +14,7 @@ export class BasePage {
     this.searchButton = page.locator('button[tabindex="0"][type="button"]').nth(1);
   }
 
-  async openBurgerMenu() {    
+  async openBurgerMenu() {
     await this.menuButton.click({ force: true });
   }
 
@@ -31,5 +31,5 @@ export class BasePage {
   async verifySearchValue(expectedValue: string) {
     await expect(this.searchBox).toHaveValue(expectedValue);
   }
-  
+
 }

@@ -1,15 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { HomePage, KnowledgeBasePage, BasePage, SearchResultsPage } from '../pages';
+import { HomePage, KnowledgeBasePage, SearchResultsPage } from '../pages';
 
 test.describe('Knowledge Base Tests', () => {
   let homePage: HomePage;
   let knowledgeBasePage: KnowledgeBasePage;
-  let basePage: BasePage;
   let searchResultsPage: SearchResultsPage;
 
 
   test.beforeEach(async ({ page }) => {
-    basePage = new BasePage(page);
     homePage = new HomePage(page);
     knowledgeBasePage = new KnowledgeBasePage(page);
     searchResultsPage = new SearchResultsPage(page);
@@ -31,7 +29,9 @@ test.describe('Knowledge Base Tests', () => {
 
   });
 
-  test('Navigation to Knowledge Base via burger menu @regression', async ({ page }) => {
+  test('Navigation to Knowledge Base via burger menu', {
+    tag: '@regression',
+  }, async ({ page }) => {
 
     await test.step('Verify Knowledge Base page structure', async () => {
       await knowledgeBasePage.verifyPageStructure();
@@ -39,24 +39,30 @@ test.describe('Knowledge Base Tests', () => {
     });
   });
 
-  test('Successful search in Knowledge Base @smoke', async ({ page }) => {
+  test('Successful search in Knowledge Base', {
+    tag: '@smoke',
+  }, async ({ page }) => {
 
     const articleTitle = await knowledgeBasePage.findArticleTitle();
-    await basePage.performSearch(articleTitle);
+    await knowledgeBasePage.performSearch(articleTitle);
 
     await searchResultsPage.verifyPageLoaded();
     await searchResultsPage.verifyArticleCount(1);
   });
 
-  test('Unsuccessful search in Knowledge Base @smoke', async ({ page }) => {
+  test('Unsuccessful search in Knowledge Base', {
+    tag: '@smoke',
+  }, async ({ page }) => {
 
     await test.step('Perform unsuccessful search', async () => {
-      await basePage.performSearch('NonExistentTerm12345');
+      await knowledgeBasePage.performSearch('NonExistentTerm12345');
       await searchResultsPage.verifyNoResultsState();
     });
   });
 
-  test('Knowledge Base navigation breadcrumbs @regression', async ({ page }) => {
+  test('Knowledge Base navigation breadcrumbs', {
+    tag: '@tegression',
+  }, async ({ page }) => {
 
     await test.step('Verify breadcrumb navigation', async () => {
       await knowledgeBasePage.verifyBreadcrumbElements();

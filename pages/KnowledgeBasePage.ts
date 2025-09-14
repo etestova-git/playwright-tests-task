@@ -51,7 +51,7 @@ export class KnowledgeBasePage extends BasePage {
   async findArticleTitle(): Promise<string> {
     // Wait for articles to load
     await expect(this.articlesList.first()).toBeVisible();
-    
+
     // Get the text content of the first article
     const firstArticle = this.articlesList.first();
     const articleText = await firstArticle.textContent();
