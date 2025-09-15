@@ -1,5 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { isSorted } from '../utils/isSorted';
 
 export class KnowledgeBasePage extends BasePage {
   readonly pageHeading: Locator;
@@ -14,6 +15,10 @@ export class KnowledgeBasePage extends BasePage {
   readonly sortingOptions = ['Alphabetical', 'Highest Rated', 'Most Popular', 'Newest First'] as const;
   readonly firstArticleViews: Locator;
   readonly secondArticleViews: Locator;
+  
+  get articleViewsArray(): Promise<Locator[]> {
+    return this.page.locator('.MuiTypography-inherit').all();
+  }
 
   constructor(page: Page) {
     super(page);
@@ -26,8 +31,6 @@ export class KnowledgeBasePage extends BasePage {
     this.categoriesTree = page.getByRole('tree');
     this.articlesList = page.locator('.MuiListItemText-primary');
     this.sortingDropdown = page.getByRole('combobox').nth(0);
-    this.firstArticleViews = page.locator('.MuiTypography-inherit').nth(0);
-    this.secondArticleViews = page.locator('.MuiTypography-inherit').nth(2);
   }
 
   async goto() {
@@ -81,15 +84,23 @@ export class KnowledgeBasePage extends BasePage {
 
   async verifyArticleSorting(order: typeof this.sortingOptions[number]) {
     if (order === 'Most Popular') {
-      expect(this.firstArticleViews).toBeVisible();
-      const firstArticleViews = await this.firstArticleViews.textContent();
-      const firstNumber = firstArticleViews?.match(/\d+/)?.[0];
-      expect(this.secondArticleViews).toBeVisible();
-      const secondArticleViews = await this.secondArticleViews.textContent();
-      const secondNumber = secondArticleViews?.match(/\d+/)?.[0];
-      expect(parseInt(firstNumber || '0')).toBeGreaterThanOrEqual(parseInt(secondNumber || '0'));
+
+      const articleViewsLocators = await this.articleViewsArray;
+      const articleViewsNumbers: number[] = [];
+      
+      for (const locator of articleViewsLocators) {
+        const textContent = await locator.textContent();
+        const match = textContent?.match(/\d+/);
+        if (match) {
+          articleViewsNumbers.push(parseInt(match[0], 10));
+        }
+      }
+      // Check if the array is sorted in descending order
+      let isAscending = false;
+      expect(isSorted(articleViewsNumbers, isAscending)).toBe(true);
+
     } else {
-      // Implement other sorting verifications as needed
+      // toDo Implement other sorting verifications 
       throw new Error(`Sorting verification for ${order} is not implemented.`);
     }
   }
