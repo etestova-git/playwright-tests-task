@@ -1,4 +1,5 @@
-import { knowledgeBaseTest as test, expect } from '../fixtures';
+// Update the import to use the correct exported member from knowledgeBaseFixtures
+import { test, expect } from '../fixtures/knowledgeBaseFixtures';
 
 test.describe('Knowledge Base Structure', async () => {
 
