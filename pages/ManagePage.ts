@@ -1,8 +1,9 @@
 
 import { Page } from '@playwright/test';
-import { HomePage } from './HomePage';
+/*import { HomePage } from './HomePage';
 import { SearchResultsPage } from './SearchResultsPage';
-import { KnowledgeBasePage } from './KnowledgeBasePage';
+import { KnowledgeBasePage } from './KnowledgeBasePage';*/
+import { HomePage, KnowledgeBasePage, SearchResultsPage } from '../pages';
 
 export default class ManagePage {
     constructor(private readonly page: Page) { }

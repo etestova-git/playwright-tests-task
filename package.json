@@ -6,7 +6,8 @@
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
     "test:debug": "npx playwright test --debug",
-    "test:smoke": "npx playwright test --grep @smoke"
+    "test:smoke": "npx playwright test --grep @smoke",
+    "test:chrome": "npx playwright test --project=chromium"
   },
   "keywords": [],
   "author": "",
